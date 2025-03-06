@@ -35,7 +35,7 @@ function texto() {
               fontSize: fontSize,
             },
           },
-          "Título Marcos"
+          "Título Super Marcos"
         ),
         m(
           "p",

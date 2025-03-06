@@ -1,4 +1,4 @@
-import { inicio, } from "./components.js"
+import { inicio, marcos, santiago, alex, domingo, sandra, yoannet} from "./components.js"
 
 /* function Layout() {
     return {
@@ -13,6 +13,12 @@ import { inicio, } from "./components.js"
 
 const routes = {
     "/Inicio": { view: () =>  m(inicio)},
+    "/Marcos": { view: () =>  m(marcos)},
+    "/Santiago": { view: () =>  m(santiago)},
+    "/Alex": { view: () =>  m(alex)},
+    "/Domingo": { view: () =>  m(domingo)},
+    "/Sandra": { view: () =>  m(sandra)},
+    "/Yoannet": { view: () =>  m(yoannet)},
 /*     "/ejemplo": { view: () => m(Layout, Header)}
  */}
 

@@ -1,4 +1,4 @@
-function blanco() {
+function Blanco() {
   return {
     view: ({}) => [
       m("div", {
@@ -13,7 +13,7 @@ function blanco() {
   };
 }
 
-function header() {
+function Header() {
   return {
     view: function () {
       return m(
@@ -89,13 +89,21 @@ function header() {
             },
           }, "Yoannet"),
 
+          m(m.route.Link, {
+            href: "/Pau",
+            style: {
+            color: "white",
+            textDecoration: "none",
+            },
+          }, "Pau"),
+
         );
       
     },
   };
 }
 
-function texto() {
+function Texto() {
   const fontSize = "50px"; // Cambia aquí el tamaño de fuente para todo
 
   return {
@@ -124,12 +132,11 @@ function texto() {
   };
 }
 
-//----------MARCOS-----------
+//----------Marcos-----------
 
 //Pon tu código aquí
 
-
-function paginaMarcos() {
+function PaginaMarcos() {
   const fontSize = "50px"; // Cambia aquí el tamaño de fuente para todo
 
   return {
@@ -153,34 +160,21 @@ function paginaMarcos() {
           },
           "Página Marcos"
         ),
-        m(
-          "h1",
-          {
-            style: {
-              margin: "0",
-              marginBottom: "15px",
-              textAlign: "center",
-              fontSize: fontSize,
-            },
-          },
-          "Página Marcos"
-        ),
       );
     },
   };
 }
 
-function carruselMarcos(){
+function CarruselMarcos(){
   
 }
 
-
-//----------SANTIAGO-----------
+//----------Santiago-----------
 
 //Pon tu código aquí
 
 
-function paginaSantiago() {
+function PaginaSantiago() {
   const fontSize = "50px"; // Cambia aquí el tamaño de fuente para todo
 
   return {
@@ -209,12 +203,12 @@ function paginaSantiago() {
   };
 }
 
-//----------ALEX-----------
+//----------Alex-----------
 
 //Pon tu código aquí
 
 
-function paginaAlex() {
+function PaginaAlex() {
   const fontSize = "50px"; // Cambia aquí el tamaño de fuente para todo
 
   return {
@@ -243,12 +237,12 @@ function paginaAlex() {
   };
 }
 
-//----------DOMINGO-----------
+//----------Domingo-----------
 
 //Pon tu código aquí
 
 
-function paginaDomingo() {
+function PaginaDomingo() {
   const fontSize = "50px"; // Cambia aquí el tamaño de fuente para todo
 
   return {
@@ -277,12 +271,12 @@ function paginaDomingo() {
   };
 }
 
-//----------SANDRA-----------
+//----------Sandra-----------
 
 //Pon tu código aquí
 
 
-function paginaSandra() {
+function PaginaSandra() {
   const fontSize = "50px"; // Cambia aquí el tamaño de fuente para todo
 
   return {
@@ -312,12 +306,12 @@ function paginaSandra() {
 }
 
 
-//----------YOANNET-----------
+//----------Yoannet-----------
 
 //Pon tu código aquí
 
 
-function paginaYoannet() {
+function PaginaYoannet() {
   const fontSize = "50px"; // Cambia aquí el tamaño de fuente para todo
 
   return {
@@ -346,10 +340,44 @@ function paginaYoannet() {
   };
 }
 
+//----------Yoannet-----------
+
+//Pon tu código aquí
+
+
+function PaginaPau() {
+  const fontSize = "50px"; // Cambia aquí el tamaño de fuente para todo
+
+  return {
+    view: function () {
+      return m(
+        "div",
+        {
+          style: {
+            marginTop: "20px",
+          },
+        },
+        m(
+          "h1",
+          {
+            style: {
+              margin: "0",
+              marginBottom: "15px",
+              textAlign: "center",
+              fontSize: fontSize,
+            },
+          },
+          "Página Pau"
+        ),
+      );
+    },
+  };
+}
+
 
 //----------PÁGINAS-----------
 
-function inicio() {
+function Inicio() {
   return {
     oncreate: () => {
       window.scrollTo(0, 0);
@@ -362,8 +390,8 @@ function inicio() {
             /*backgroundColor: "grey"*/
           },
         },
-        m(header),
-        m(blanco),
+        m(Header),
+        m(Blanco),
         m(
           "div",
           {
@@ -378,7 +406,7 @@ function inicio() {
               margin: "0 auto",
             },
           },
-          m(texto),
+          m(Texto),
           //m(aside),
         )
         //m(footer),
@@ -387,7 +415,7 @@ function inicio() {
   };
 }
 
-function marcos() {
+function Marcos() {
   return {
     oncreate: () => {
       window.scrollTo(0, 0);
@@ -400,8 +428,8 @@ function marcos() {
             /*backgroundColor: "grey"*/
           },
         },
-        m(header),
-        m(blanco),
+        m(Header),
+        m(Blanco),
         m(
           "div",
           {
@@ -416,7 +444,7 @@ function marcos() {
               margin: "0 auto",
             },
           },
-          m(paginaMarcos),
+          m(PaginaMarcos),
           //m(aside),
         )
         //m(footer),
@@ -425,7 +453,7 @@ function marcos() {
   };
 }
 
-function santiago() {
+function Santiago() {
   return {
     oncreate: () => {
       window.scrollTo(0, 0);
@@ -438,8 +466,8 @@ function santiago() {
             /*backgroundColor: "grey"*/
           },
         },
-        m(header),
-        m(blanco),
+        m(Header),
+        m(Blanco),
         m(
           "div",
           {
@@ -454,7 +482,7 @@ function santiago() {
               margin: "0 auto",
             },
           },
-          m(paginaSantiago),
+          m(PaginaSantiago),
           //m(aside),
         )
         //m(footer),
@@ -463,7 +491,7 @@ function santiago() {
   };
 }
 
-function alex() {
+function Alex() {
   return {
     oncreate: () => {
       window.scrollTo(0, 0);
@@ -476,8 +504,8 @@ function alex() {
             /*backgroundColor: "grey"*/
           },
         },
-        m(header),
-        m(blanco),
+        m(Header),
+        m(Blanco),
         m(
           "div",
           {
@@ -492,7 +520,7 @@ function alex() {
               margin: "0 auto",
             },
           },
-          m(paginaAlex),
+          m(PaginaAlex),
           //m(aside),
         )
         //m(footer),
@@ -501,7 +529,7 @@ function alex() {
   };
 }
 
-function domingo() {
+function Domingo() {
   return {
     oncreate: () => {
       window.scrollTo(0, 0);
@@ -514,8 +542,8 @@ function domingo() {
             /*backgroundColor: "grey"*/
           },
         },
-        m(header),
-        m(blanco),
+        m(Header),
+        m(Blanco),
         m(
           "div",
           {
@@ -530,7 +558,7 @@ function domingo() {
               margin: "0 auto",
             },
           },
-          m(paginaDomingo),
+          m(PaginaDomingo),
           //m(aside),
         )
         //m(footer),
@@ -539,7 +567,7 @@ function domingo() {
   };
 }
 
-function sandra() {
+function Sandra() {
   return {
     oncreate: () => {
       window.scrollTo(0, 0);
@@ -552,8 +580,8 @@ function sandra() {
             /*backgroundColor: "grey"*/
           },
         },
-        m(header),
-        m(blanco),
+        m(Header),
+        m(Blanco),
         m(
           "div",
           {
@@ -568,7 +596,7 @@ function sandra() {
               margin: "0 auto",
             },
           },
-          m(paginaSandra),
+          m(PaginaSandra),
           //m(aside),
         )
         //m(footer),
@@ -577,7 +605,7 @@ function sandra() {
   };
 }
 
-function yoannet() {
+function Yoannet() {
   return {
     oncreate: () => {
       window.scrollTo(0, 0);
@@ -590,8 +618,8 @@ function yoannet() {
             /*backgroundColor: "grey"*/
           },
         },
-        m(header),
-        m(blanco),
+        m(Header),
+        m(Blanco),
         m(
           "div",
           {
@@ -606,7 +634,7 @@ function yoannet() {
               margin: "0 auto",
             },
           },
-          m(paginaYoannet),
+          m(PaginaYoannet),
           //m(aside),
         )
         //m(footer),
@@ -615,4 +643,42 @@ function yoannet() {
   };
 }
 
-export { inicio, marcos, santiago, alex, domingo, sandra, yoannet };
+function Pau() {
+  return {
+    oncreate: () => {
+      window.scrollTo(0, 0);
+    },
+    view: () => [
+      m(
+        "div",
+        {
+          style: {
+            /*backgroundColor: "grey"*/
+          },
+        },
+        m(Header),
+        m(Blanco),
+        m(
+          "div",
+          {
+            style: {
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              boxSizing: "border-box",
+              justifyContent: "center",
+              gap: "32px",
+              padding: "0px 10%",
+              margin: "0 auto",
+            },
+          },
+          m(PaginaPau),
+          //m(aside),
+        )
+        //m(footer),
+      ),
+    ],
+  };
+}
+
+export { Inicio, Marcos, Santiago, Alex, Domingo, Sandra, Yoannet, Pau };

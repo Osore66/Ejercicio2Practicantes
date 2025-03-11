@@ -340,7 +340,7 @@ function PaginaYoannet() {
   };
 }
 
-//----------Yoannet-----------
+//----------Pau-----------
 
 //Pon tu código aquí
 

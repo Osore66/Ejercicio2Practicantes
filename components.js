@@ -434,6 +434,8 @@ function PersistenciaMarcos(){
             width: "80px", height: "30px", backgroundColor: "orange", color: "white", border: "1px solid black", borderRadius: "6px", fontWeight: "bold", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)", cursor: "pointer",
             },
             onclick: () => this.porDefecto(),
+            onmouseover: (e) => e.target.style.backgroundColor="purple",
+            onmouseout: (e) => e.target.style.backgroundColor="orange",
           }, "Resetear"),
 
           m("button", {

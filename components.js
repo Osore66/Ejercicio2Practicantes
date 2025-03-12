@@ -505,9 +505,15 @@ function TareasMarcos(){
           },
           onclick: () =>{tarea=tareainp; m.redraw()},
         }, "Añadir"),
-        m("p", {style: {}}, `Tu tarea es: ${tarea}`),
       ),
-       
+      m("div", {style:{
+        marginTop: "30px",
+        display: "flex",
+        justifyContent: "center"
+      }}, 
+      m("h2", {style:{}},"Pendientes"),
+      m("input", {type: "checkbox"})
+    )
       );
     },
   };

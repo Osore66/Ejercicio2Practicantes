@@ -1,3 +1,9 @@
+//==========VARIABLES GLOBALES===========
+
+//Aquí van las variables globales(las que se usan en más de una página)
+
+//==========COMPONENTES GLOBALES==========
+
 function Blanco() {
   return {
     view: ({ }) => [
@@ -132,9 +138,11 @@ function Texto() {
   };
 }
 
-//----------Marcos-----------
+//==========FUNCIONES GLOBALES==========
 
-//Pon tu código aquí
+//Aquí van las funciones globales(las que se usan en más de una página)
+
+//==========MARCOS==========
 
 function HeaderMarcos() {
   return {
@@ -171,31 +179,16 @@ function HeaderMarcos() {
 }
 
 function PaginaMarcos() {
-
   const fontSize = "50px"; // Cambia aquí el tamaño de fuente para todo
 
   return {
     view: function () {
-      return m(
-        "div",
-        {
-          style: {
-            marginTop: "20px",
-          },
-        },
-        m(
-          "h1",
-          {
-            style: {
-
-              margin: "0",
-              marginBottom: "15px",
-              textAlign: "center",
-              fontSize: "fontSize",
-            },
-          },
-          "Página Marcos"
-        ),
+      return m("div", {}, 
+        m(CarruselMarcos),
+        m(DesplegableMarcos),
+        m(PersistenciaMarcos),
+        m(TareasMarcos),
+        m(TarjetasMarcos),
       );
     },
   };
@@ -450,73 +443,234 @@ function PersistenciaMarcos(){
   };
   
 }
+ 
+function TareasMarcos() {
+  let existe=false;
+  return {
+    tareaInput: "",
+    tareas: [],
+    completadas: [],
+    
+    oninit: function () {
+      this.tareas = JSON.parse(localStorage.getItem("tareas") || []);
+      this.completadas = JSON.parse(localStorage.getItem("completadas") || []);
+    },
+    actualizarTareas: function () {
+      localStorage.setItem("tareas", JSON.stringify(this.tareas));
+      localStorage.setItem("completadas", JSON.stringify(this.completadas));
+    },
 
-function TareasMarcos(){
-  let tarea;
-  let tareainp;
-  return{
+    agregarTarea: function () {
+      existe=true;
+      if (this.tareaInput.trim() === "") return;
+      this.tareas.push(this.tareaInput);
+      this.tareaInput = "";
+      this.actualizarTareas();
+    },
+
     view: function () {
-      return m(
-        "div",
-        {
-          style: {
-            marginBottom: "50px",
-          },
-        },
-        m(
-          "h1",
-          {
-            style: {
-              margin: "0",
-              textAlign: "center",
-            },
-          },
-          "Lista de tareas"
-        ),
+      return m("div", { style: { marginBottom: "50px" } },
+        m("h1", { style: { margin: "0", textAlign: "center" } }, "Lista de tareas"),
+
         m("div", {
-          style:{
+          style: {
             marginTop: "20px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             gap: "20px",
-          }
-
+          },
         },
-        m("input", {
-          type: "text",
-          placeholder: "Introduce la tarea que deseas añadir",
-          value: tareainp,
-          oninput: (e) => { tareainp = e.target.value; m.redraw(); },
+          m("input", {
+            type: "text",
+            placeholder: "Introduce la tarea que deseas añadir",
+            value: this.tareaInput,
+            oninput: (e) => { this.tareaInput = e.target.value; },
+            style: {
+              paddingLeft: "10px",
+              width: "70%",
+              fontSize: "14px",
+              minHeight: "40px",
+              display: "flex",
+            },
+          }),
+          m("button", {
+            style: {
+              width: "100px",
+              height: "40px",
+              cursor: "pointer",
+            },
+            onclick: () => { this.agregarTarea(); },
+          }, "Añadir")
+        ),
+
+        m("div", {
           style: {
-            paddingLeft: "10px",
-            width: "70%",
-            fontSize: "14px",
-            minHeight: "40px",
+            marginTop: "30px",
             display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
           },
-        }),
-        m("button", {
-          style:{
-          width: "100px",
-          height: "40px",        
-          cursor: "pointer",
-          },
-          onclick: () =>{tarea=tareainp; m.redraw()},
-        }, "Añadir"),
+        },
+          m("h2", { style: { textAlign: "center" } }, "Pendientes"),
+          m("p",{style:{textAlign: "center", marginTop: "20px"}}, this.tareas.length === 0 ? "No tienes tareas pendientes" : ""),
+          this.tareas.map((t, index) =>
+            m("div", {
+              style: {
+                display: "flex",
+                marginTop: "10px",
+                justifyContent: "center",
+                gap: "10px",
+              },
+            },
+              m("input", {
+                type: "checkbox",
+                checked: false,
+                style: { width: "18px", cursor: "pointer" },
+                onclick: () => {this.completadas.push(t); this.tareas.splice(index,1); this.actualizarTareas(); m.redraw();},
+              }),
+              m("label", {
+                style: {
+                  border: "1px solid black",
+                  width: "90%",
+                  minHeight: "40px",
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  padding: "0 20px",
+                  justifyContent: "space-between"
+                },
+              },
+              t,  
+            ),
+            m("button", {style: {},
+              onclick: () => { 
+              
+              
+            },
+            },
+              "Editar"), 
+              m("button", {style: {},
+                onclick: () => { this.tareas.splice(index,1); this.actualizarTareas(); m.redraw();},
+              },
+                "Borrar"), 
+            ),        
+          ),
+
+          m("div", {style:{marginTop: "30px"}},
+            m("h2", { style: { textAlign: "center" } }, "Completadas"),
+            m("p",{style:{textAlign: "center", marginTop: "20px"}}, this.completadas.length === 0 ? "No has completado aún ninguna tarea" : ""),
+            this.completadas.map((t, index) =>
+              m("div", {
+                style: {
+                  display: "flex",
+                  marginTop: "10px",
+                  justifyContent: "center",
+                  gap: "10px",
+                },
+              },
+                m("input", {
+                  type: "checkbox",
+                  checked: "true",
+                  style: { width: "18px", cursor: "pointer",  },
+                  onclick: () => {this.tareas.push(t); this.completadas.splice(index,1); this.actualizarTareas(); m.redraw();},
+                }),
+                m("label", {
+                  style: {
+                    opacity: 0.6,
+                    border: "1px solid black",
+                    width: "90%",
+                    minHeight: "40px",
+                    borderRadius: "6px",
+                    alignItems: "center",
+                    display: "flex",
+                    padding: "0 20px",
+                    justifyContent: "space-between",
+                    textDecoration: "line-through",
+                  },
+                },
+                t,  
+              ),
+              m("button", {style: {},
+                onclick: () => {},
+              },
+                "Editar"), 
+              m("button", {style: {},
+                onclick: () => { this.tareas.splice(index,1); this.actualizarTareas(); m.redraw();},
+              },
+                "Borrar"), 
+        ),
+          ),
+          
+        ),
       ),
-      m("div", {style:{
-        marginTop: "30px",
-        display: "flex",
-        justifyContent: "center"
-      }}, 
-      m("h2", {style:{}},"Pendientes"),
-      m("input", {type: "checkbox"})
     )
-      );
+    }
+  };
+};
+
+function TarjetasMarcos(){
+  return {
+    select: {
+      model: {
+        tarjetas: [],
+        index: null,
+      }
     },
+ 
+    oninit: function() {
+      m.request({
+        method: "GET",
+        url: "https://jsonplaceholder.typicode.com/posts/1/comments",
+      }).then((data) =>{
+        this.select.model.tarjetas = data.tarjes;
+      });
+    },
+    
+   selectPost: function (index) {
+    this.select.model.selectedPost = index;
+  },
+
+ 
+    view: function() {
+      return m("div",
+        m("h1", `Listado de Posts (userId = ${usuarioFetch})`),
+ 
+ 
+        m("ul", {
+          style: {
+            listStyleType: "none",  // Sin puntos
+            padding: 0,
+            margin: 0,
+          }
+        },
+          this.posts.map(post =>
+            m("li", {
+              key: post.id,
+              style: {
+                marginBottom: "20px",
+                padding: "10px",
+                border: "1px solid #ddd",
+                borderRadius: "8px",
+                backgroundColor: "#f9f9f9"
+              }
+            },
+              m("h3", {
+                style: { margin: "0", display: "block", marginBottom: "5px",}
+              }, post.title),
+ 
+ 
+              m("p", {
+                style: { margin: 0, color: "#555", fontSize: "14px" }
+              }, post.body)
+            )
+          )
+        )
+      );
+    }
   };
-  };
+ }
+ 
 
 function FooterMarcos() {
   return {
@@ -536,7 +690,7 @@ function FooterMarcos() {
   };
 }
 
-//----------Santiago-----------
+//==========SANTIAGO==========
 
 //Pon tu código aquí
 
@@ -555,7 +709,7 @@ function PaginaSantiago() {
   };
 }
 
-//----------Alex-----------
+//==========ALEX==========
 
 //Pon tu código aquí
 
@@ -589,7 +743,7 @@ function PaginaAlex() {
   };
 }
 
-//----------Domingo-----------
+//==========DOMINGO==========
 
 //Pon tu código aquí
 
@@ -623,7 +777,7 @@ function PaginaDomingo() {
   };
 }
 
-//----------Sandra-----------
+//==========SANDRA==========
 
 //Pon tu código aquí
 
@@ -658,7 +812,7 @@ function PaginaSandra() {
 }
 
 
-//----------Yoannet-----------
+//==========YOANNET==========
 
 //Pon tu código aquí
 
@@ -692,7 +846,7 @@ function PaginaYoannet() {
   };
 }
 
-//----------Pau-----------
+//==========PAU==========
 
 //Pon tu código aquí
 
@@ -727,7 +881,7 @@ function PaginaPau() {
 }
 
 
-//----------PÁGINAS-----------
+//==========PÁGINAS==========
 
 function Inicio() {
   return {
@@ -799,10 +953,7 @@ function Marcos() {
               margin: "0 auto",
             },
           },
-          m(CarruselMarcos),
-          m(DesplegableMarcos),
-          m(PersistenciaMarcos),
-          m(TareasMarcos)
+          m(PaginaMarcos),
         ),
         m(FooterMarcos)
       ),

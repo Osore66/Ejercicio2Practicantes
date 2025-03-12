@@ -494,7 +494,6 @@ function TareasMarcos(){
             fontSize: "14px",
             minHeight: "40px",
             display: "flex",
-           
           },
         }),
         m("button", {

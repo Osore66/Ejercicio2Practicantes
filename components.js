@@ -1,7 +1,6 @@
 //==========VARIABLES GLOBALES===========
 
 //Aquí van las variables globales(las que se usan en más de una página)
-
 //==========COMPONENTES GLOBALES==========
 
 function Blanco() {
@@ -143,8 +142,11 @@ function Texto() {
 //Aquí van las funciones globales(las que se usan en más de una página)
 
 //==========MARCOS==========
+let clickie = false;
 
 function HeaderMarcos() {
+  let backgroundColor = clickie ? "gray" : "white";
+  let color = clickie ? "white" : "black";
   return {
     view: function () {
       return m(
@@ -154,13 +156,12 @@ function HeaderMarcos() {
             width: "100%",
             height: "70px",
             position: "fixed",
-            backgroundColor: "#666666",
+            backgroundColor: backgroundColor,
             display: "flex",
             justifyContent: "space-around",
             alignItems: "center",
             boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
             padding: "0 10px",
-            boxSizing: "border-box",
             zIndex: 1000,
           },
 
@@ -168,12 +169,39 @@ function HeaderMarcos() {
         m(m.route.Link, {
           href: "/Inicio",
           style: {
-            color: "white",
-            textDecoration: "none",
+            textDecoration: m.route.get() === "/Marcos" ? "underline" : "none",
+            fontWeight: m.route.get() === "/Marcos" ? "bold" : "normal",
+            color: color,
           },
         }, "Inicio"),
-      );
 
+        m(m.route.Link, {
+          href: "/Página 2",
+          style: {
+            color: color,
+            textDecoration: m.route.get() === "/Página 2" ? "underline" : "none",
+            fontWeight: m.route.get() === "/Página 2" ? "bold" : "normal",
+          },
+        }, "Página 2"),
+
+        m("button",{
+          onclick: ()=>
+          {
+            clickie = !clickie;
+            m.redraw()
+          },
+          style:{
+          width: "40px",
+          height: "40px",
+          cursor: "pointer",
+          border: "1px solid black",
+          backgroundImage: "url('./img/modo.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",  
+        },
+      },  
+      ),
+      );
     },
   };
 }
@@ -596,7 +624,7 @@ function TareasMarcos() {
               },
                 "Editar"), 
               m("button", {style: {},
-                onclick: () => { this.tareas.splice(index,1); this.actualizarTareas(); m.redraw();},
+                onclick: () => { this.completadas.splice(index,1); this.actualizarTareas(); m.redraw();},
               },
                 "Borrar"), 
         ),
@@ -611,67 +639,44 @@ function TareasMarcos() {
 
 function TarjetasMarcos(){
   return {
-    select: {
-      model: {
-        tarjetas: [],
-        index: null,
-      }
-    },
+    select: { model: { tarjetas: [], indice:null} },
  
-    oninit: function() {
-      m.request({
-        method: "GET",
-        url: "https://jsonplaceholder.typicode.com/posts/1/comments",
-      }).then((data) =>{
-        this.select.model.tarjetas = data.tarjes;
-      });
+    oninit: async function () {
+      const respuesta = await fetch("https://jsonplaceholder.typicode.com/posts");
+      if(!respuesta.ok){
+        console.error("Errorin");
+      }
+      this.select.model.tarjetas = await respuesta.json();
+      m.redraw();
     },
-    
-   selectPost: function (index) {
-    this.select.model.selectedPost = index;
-  },
-
  
     view: function() {
-      return m("div",
-        m("h1", `Listado de Posts (userId = ${usuarioFetch})`),
- 
- 
-        m("ul", {
-          style: {
-            listStyleType: "none",  // Sin puntos
-            padding: 0,
-            margin: 0,
-          }
-        },
-          this.posts.map(post =>
-            m("li", {
-              key: post.id,
-              style: {
-                marginBottom: "20px",
-                padding: "10px",
-                border: "1px solid #ddd",
-                borderRadius: "8px",
-                backgroundColor: "#f9f9f9"
-              }
+      return m("div", { style:{display: "flex", flexDirection: "column", marginBottom: "20px"},
+      },
+      m("h1", {style:{textAlign: "center"}}, "Tarjetas"),
+      m("div", {
+        style: {
+          flexWrap: "wrap", margin: "0", display: "flex", justifyContent: "center", columnGap: "10px", rowGap: "30px", width: " 100%"
+        }
+      },
+        this.select.model.tarjetas.map((tarjeta, indice) =>
+          m("div", {
+            style: {
+              border: "1px solid black", margin: "0", height: "250px", width: "250px", overflow: "hidden", borderRadius: "6px", marginTop: "20px", display: "flex", textAlign: "center", flexDirection: "column",
             },
-              m("h3", {
-                style: { margin: "0", display: "block", marginBottom: "5px",}
-              }, post.title),
- 
- 
-              m("p", {
-                style: { margin: 0, color: "#555", fontSize: "14px" }
-              }, post.body)
-            )
-          )
-        )
-      );
-    }
-  };
- }
- 
+          },
+            m("h1", { style: { overflow: "hidden", margin: "0", paddingTop: "10px", paddingBottom: "10px", } }, tarjeta.title),
 
+            m("p", { style: { margin: "0", padding: "12px", textAlign: "justify", height: "auto", } }, tarjeta.body),
+            
+          ),
+        ),
+        )
+      )
+      }
+  };
+}
+ 
 function FooterMarcos() {
   return {
     view: function () {
@@ -926,14 +931,20 @@ function Marcos() {
     oncreate: () => {
       window.scrollTo(0, 0);
     },
-    view: () =>
-      m(
+    view: () => {
+      let backgroundColor = clickie ? "#ddbb0d" : "white"; // Aquí se define la variable
+      let color = clickie ? "white" : "black"; 
+
+      return m(
         "div",
         {
           style: {
-            display: "flex",
-            flexDirection: "column",
-            minHeight: "100vh",
+            display: "flex", 
+            flexDirection: "column", 
+            minHeight: "100vh", 
+            backgroundColor: backgroundColor,
+            color: color,
+            
           },
         },
         m(HeaderMarcos),
@@ -942,21 +953,22 @@ function Marcos() {
           "div",
           {
             style: {
-              display: "flex",
-              flexDirection: "column",
-              flexGrow: 1,
-              width: "100%",
-              boxSizing: "border-box",
-              justifyContent: "center",
-              gap: "32px",
-              padding: "0px 10%",
+              display: "flex", 
+              flexDirection: "column", 
+              flexGrow: 1, 
+              width: "100%", 
+              boxSizing: "border-box", 
+              justifyContent: "center", 
+              gap: "32px", 
+              padding: "0px 10%", 
               margin: "0 auto",
             },
           },
           m(PaginaMarcos),
         ),
         m(FooterMarcos)
-      ),
+      );
+    }
   };
 }
 

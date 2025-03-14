@@ -2,7 +2,13 @@
 
 //Aquí van las variables globales(las que se usan en más de una página)
 //==========COMPONENTES GLOBALES==========
+let clickie = false;
 
+//==========FUNCIONES GLOBALES==========
+
+//Aquí van las funciones globales(las que se usan en más de una página)
+
+//==========MARCOS==========
 function Blanco() {
   return {
     view: ({ }) => [
@@ -137,13 +143,6 @@ function Texto() {
   };
 }
 
-//==========FUNCIONES GLOBALES==========
-
-//Aquí van las funciones globales(las que se usan en más de una página)
-
-//==========MARCOS==========
-let clickie = false;
-
 function HeaderMarcos() {
   let backgroundColor = clickie ? "gray" : "white";
   let color = clickie ? "white" : "black";
@@ -188,7 +187,7 @@ function HeaderMarcos() {
           onclick: ()=>
           {
             clickie = !clickie;
-            m.redraw()
+            m.redraw();
           },
           style:{
           width: "40px",
@@ -480,8 +479,31 @@ function TareasMarcos() {
     completadas: [],
     
     oninit: function () {
-      this.tareas = JSON.parse(localStorage.getItem("tareas") || []);
-      this.completadas = JSON.parse(localStorage.getItem("completadas") || []);
+      // Recuperar tareas del localStorage
+      const tareasGuardadas = localStorage.getItem("tareas");
+      if (tareasGuardadas) {
+        try {
+          this.tareas = JSON.parse(tareasGuardadas);
+        } catch (error) {
+          console.error("Error al parsear 'tareas' del localStorage:", error);
+          this.tareas = []; // Valor por defecto en caso de error
+        }
+      } else {
+        this.tareas = []; // Valor por defecto si no hay datos
+      }
+
+      // Recuperar completadas del localStorage
+      const completadasGuardadas = localStorage.getItem("completadas");
+      if (completadasGuardadas) {
+        try {
+          this.completadas = JSON.parse(completadasGuardadas);
+        } catch (error) {
+          console.error("Error al parsear 'completadas' del localStorage:", error);
+          this.completadas = []; // Valor por defecto en caso de error
+        }
+      } else {
+        this.completadas = []; // Valor por defecto si no hay datos
+      }
     },
     actualizarTareas: function () {
       localStorage.setItem("tareas", JSON.stringify(this.tareas));
@@ -635,7 +657,8 @@ function TareasMarcos() {
     )
     }
   };
-};
+}
+
 
 function TarjetasMarcos(){
   return {

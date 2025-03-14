@@ -143,6 +143,8 @@ function Texto() {
   };
 }
 
+//==========MARCOS==========
+
 function HeaderMarcos() {
   let backgroundColor = clickie ? "gray" : "white";
   let color = clickie ? "white" : "black";
@@ -160,8 +162,8 @@ function HeaderMarcos() {
             justifyContent: "space-around",
             alignItems: "center",
             boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
-            padding: "0 10px",
-            zIndex: 1000,
+            padding: "0 10px",           
+            zIndex: 1001,
           },
 
         },
@@ -205,23 +207,24 @@ function HeaderMarcos() {
   };
 }
 
-function PaginaMarcos() {
-  const fontSize = "50px"; // Cambia aquí el tamaño de fuente para todo
-
+function cookiesMarcos(){
   return {
     view: function () {
-      return m("div", {}, 
-        m(CarruselMarcos),
-        m(DesplegableMarcos),
-        m(PersistenciaMarcos),
-        m(TareasMarcos),
-        m(TarjetasMarcos),
+      return m(
+        "div",
+        {
+          style: {
+            
+          },
+        },
       );
     },
   };
 }
 
 function CarruselMarcos() {
+  let clicsig = false;
+  let clicant = false;
   return {
     select:
     {
@@ -231,20 +234,61 @@ function CarruselMarcos() {
           { titulo: "Titulo 2", imagen: "img/queso san simon ahumado.jpg" },
           { titulo: "Titulo 3", imagen: "img/mejillones en escabeche 13-18.jpg" },
           { titulo: "Titulo 4", imagen: "img/jamon cocido libra.jpg" },
-          { titulo: "Titulo 5", imagen: "img/sol.png" },
+          { titulo: "Titulo 5", imagen: "img/lomito de bellota 100.jpg" },
           { titulo: "Titulo 6", imagen: "img/arbol.jpg" },
         ],
         selectedPost: 0,
       },
     },
     view: function () {
+      const siguiente = (this.select.model.selectedPost + 1) % this.select.model.tarjetas.length;
+      const siguiente1 = (this.select.model.selectedPost + 2) % this.select.model.tarjetas.length;
+      const anterior = (this.select.model.selectedPost - 1 + this.select.model.tarjetas.length)% this.select.model.tarjetas.length;
+      const anterior1 = (this.select.model.selectedPost - 2 + this.select.model.tarjetas.length)% this.select.model.tarjetas.length;
       return m("div", { style: { margin: "20px 0px", textAlign: "center" } }, [
         m("h1", { style: { marginBottom: "15px" } }, "Carrusel"),
-        m("div", {
+        m("div", 
+          {
           style: {
-            position: "relative", width: "600px", height: "550px", margin: "0 auto", overflow: "hidden", display: "flex", borderRadius: "6px",
+             width: "600px", height: "550px", margin: "0 auto", display: "flex", justifyContent: "center", borderRadius: "6px", alignItems: "center"
           },
         },
+        m("img", {
+          src:
+            this.select.model.tarjetas[
+              anterior1].imagen,
+          alt:
+            this.select.model.tarjetas[
+              anterior1].titulo,
+          style: {
+            position: "relative",
+            right: clicsig ? "80px" : "0px", 
+            left: clicant ? "80px" : "0px", 
+            transition: clicsig ? "right 0.5s ease" : "left 0.5s ease",
+            width: "150px",
+            height: "150px",
+            objectFit: "cover",
+          },
+        },
+        
+      ),
+        m("img", {
+            src:
+              this.select.model.tarjetas[
+                anterior].imagen,
+            alt:
+              this.select.model.tarjetas[
+                anterior].titulo,
+            style: {
+              position: "relative",
+              right: clicsig ? "80px" : "0px", 
+              left: clicant ? "80px" : "0px", 
+              transition: clicsig ? "right 0.5s ease" : "left 0.5s ease",
+              width: "300px",
+              height: "300px",
+              objectFit: "cover",
+            },
+          }),
           m("img", {
             src:
               this.select.model.tarjetas[
@@ -253,18 +297,51 @@ function CarruselMarcos() {
               this.select.model.tarjetas[
                 this.select.model.selectedPost].titulo,
             style: {
-              width: "100%",
-              height: "100%",
+              position: "relative",
+              width: "450px",
+              height: "450px",
+              objectFit: "cover", 
+              zIndex: 1000,
+            },
+          }),
+          m("img", {
+            src:
+              this.select.model.tarjetas[siguiente].imagen,
+            alt:
+              this.select.model.tarjetas[siguiente].titulo,
+            style: {
+              position: "relative",
+              right: clicsig ? "80px" : "0px", 
+              left: clicant ? "80px" : "0px", 
+              transition: clicsig ? "right 0.5s ease" : "left 0.5s ease",
+              width: "300px",
+              height: "300px",
+              objectFit: "cover",
+              zIndex: 500,
+            },
+          }),
+          m("img", {
+            src:
+              this.select.model.tarjetas[siguiente1].imagen,
+            alt:
+              this.select.model.tarjetas[siguiente1].titulo,
+            style: {
+              position: "relative",
+              right: clicsig ? "80px" : "0px",
+              left: clicant ? "80px" : "0px", 
+              transition: clicsig ? "right 0.5s ease" : "left 0.5s ease",
+              right: "50px",
+              width: "150px",
+              height: "150px",
               objectFit: "cover",
             },
           }),
-
         ),
         m("div", { style: { marginTop: "10px" } }, [
           m("button", {
             style: { marginRight: "10px", padding: "5px 10px", cursor: "pointer" },
             onclick: () => {
-
+              clicant=true,
               this.select.model.selectedPost =
                 (
                   this.select.model.selectedPost - 1 +
@@ -276,7 +353,7 @@ function CarruselMarcos() {
           m("button", {
             style: { padding: "5px 10px", cursor: "pointer" },
             onclick: () => {
-
+              clicsig=true,
               this.select.model.selectedPost =
                 (
                   this.select.model.selectedPost + 1) %
@@ -430,41 +507,48 @@ function PersistenciaMarcos(){
         {
           style: {
             marginBottom: "50px",
+            textAlign: "center"
           },
         },
 
         m( "h1", { style: { margin: "0", textAlign: "center", }, }, "Persistencia de Datos" ),
         
         m("h2", { style:{ marginTop: "20px", textAlign: "center", } }, this.numero),
-
-          m("div", {
-            style:{
-            marginTop: "20px", display: "flex", justifyContent: "center", gap: "20px",
-            }
+        m("div", {
+          style:{
+          marginTop: "20px", display: "flex", justifyContent: "center", gap: "20px",
+          }
+        },
+        m("button", {
+          style:{
+          width: "80px", height: "30px", backgroundColor: "red", color: "white", border: "1px solid black", borderRadius: "6px", fontWeight: "bold", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)", cursor: "pointer",
           },
-          m("button", {
-            style:{
-            width: "80px", height: "30px", backgroundColor: "red", color: "white", border: "1px solid black", borderRadius: "6px", fontWeight: "bold", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)", cursor: "pointer",
-            },
-            onclick: () => this.restarNumero(),
-          }, "Restar"),
+          onclick: () => this.restarNumero(),
+        }, "Restar"),
 
-          m("button", {
-            style:{
-            width: "80px", height: "30px", backgroundColor: "orange", color: "white", border: "1px solid black", borderRadius: "6px", fontWeight: "bold", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)", cursor: "pointer",
-            },
-            onclick: () => this.porDefecto(),
-            onmouseover: (e) => e.target.style.backgroundColor="purple",
-            onmouseout: (e) => e.target.style.backgroundColor="orange",
-          }, "Resetear"),
+        m("button", {
+          style:{
+          width: "80px", height: "30px", backgroundColor: "orange", color: "white", border: "1px solid black", borderRadius: "6px", fontWeight: "bold", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)", cursor: "pointer",
+          },
+          onclick: () => this.porDefecto(),
+          onmouseover: (e) => e.target.style.backgroundColor="purple",
+          onmouseout: (e) => e.target.style.backgroundColor="orange",
+        }, "Resetear"),
 
-          m("button", {
-            style:{
-            width: "80px", height: "30px", backgroundColor: "green", color: "white", border: "1px solid black", borderRadius: "6px", fontWeight: "bold", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)", cursor: "pointer",
-            },
-            onclick: () => this.sumarNumero(),
-          }, "Sumar"),
-        ),
+        m("button", {
+          style:{
+          width: "80px", height: "30px", backgroundColor: "green", color: "white", border: "1px solid black", borderRadius: "6px", fontWeight: "bold", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)", cursor: "pointer",
+          },
+          onclick: () => this.sumarNumero(),
+        }, "Sumar"),       
+      ),
+      m("input", {
+        type: "range",
+        max:20,
+        min: 0,
+        value: this.numero,
+        step: 1,
+        style:{marginTop: "20px", width: "200px", accentColor: "red", pointerEvents: "none"}}),
       );
     },
   };
@@ -472,37 +556,35 @@ function PersistenciaMarcos(){
 }
  
 function TareasMarcos() {
-  let existe=false;
+  let existe = false;
+  let editarIndex = -1;
   return {
     tareaInput: "",
     tareas: [],
     completadas: [],
-    
+
     oninit: function () {
-      // Recuperar tareas del localStorage
       const tareasGuardadas = localStorage.getItem("tareas");
       if (tareasGuardadas) {
         try {
           this.tareas = JSON.parse(tareasGuardadas);
         } catch (error) {
           console.error("Error al parsear 'tareas' del localStorage:", error);
-          this.tareas = []; // Valor por defecto en caso de error
+          this.tareas = [];
         }
       } else {
-        this.tareas = []; // Valor por defecto si no hay datos
+        this.tareas = [];
       }
-
-      // Recuperar completadas del localStorage
       const completadasGuardadas = localStorage.getItem("completadas");
       if (completadasGuardadas) {
         try {
           this.completadas = JSON.parse(completadasGuardadas);
         } catch (error) {
           console.error("Error al parsear 'completadas' del localStorage:", error);
-          this.completadas = []; // Valor por defecto en caso de error
+          this.completadas = [];
         }
       } else {
-        this.completadas = []; // Valor por defecto si no hay datos
+        this.completadas = [];
       }
     },
     actualizarTareas: function () {
@@ -511,10 +593,16 @@ function TareasMarcos() {
     },
 
     agregarTarea: function () {
-      existe=true;
       if (this.tareaInput.trim() === "") return;
       this.tareas.push(this.tareaInput);
       this.tareaInput = "";
+      this.actualizarTareas();
+    },
+
+    editarTarea: function (index, nuevoValor) {
+      if (nuevoValor.trim() === "") return;
+      this.tareas[index] = nuevoValor;
+      editarIndex = -1;
       this.actualizarTareas();
     },
 
@@ -563,7 +651,7 @@ function TareasMarcos() {
           },
         },
           m("h2", { style: { textAlign: "center" } }, "Pendientes"),
-          m("p",{style:{textAlign: "center", marginTop: "20px"}}, this.tareas.length === 0 ? "No tienes tareas pendientes" : ""),
+          m("p", { style: { textAlign: "center", marginTop: "20px" } }, this.tareas.length === 0 ? "No tienes tareas pendientes" : ""),
           this.tareas.map((t, index) =>
             m("div", {
               style: {
@@ -577,7 +665,12 @@ function TareasMarcos() {
                 type: "checkbox",
                 checked: false,
                 style: { width: "18px", cursor: "pointer" },
-                onclick: () => {this.completadas.push(t); this.tareas.splice(index,1); this.actualizarTareas(); m.redraw();},
+                onclick: () => {
+                  this.completadas.push(t);
+                  this.tareas.splice(index, 1);
+                  this.actualizarTareas();
+                  m.redraw();
+                },
               }),
               m("label", {
                 style: {
@@ -591,25 +684,43 @@ function TareasMarcos() {
                   justifyContent: "space-between"
                 },
               },
-              t,  
-            ),
-            m("button", {style: {},
-              onclick: () => { 
-              
-              
-            },
-            },
-              "Editar"), 
-              m("button", {style: {},
-                onclick: () => { this.tareas.splice(index,1); this.actualizarTareas(); m.redraw();},
-              },
-                "Borrar"), 
-            ),        
+                t
+              ),
+              editarIndex === index
+                ? m("input", {
+                    type: "text",
+                    value: t,
+                    oninput: (e) => {
+                      this.tareas[index] = e.target.value;
+                    },
+                    style: {
+                      width: "80%",
+                      padding: "5px",
+                    },
+                  })
+                : null,
+              m("button", {
+                onclick: () => {
+                  if (editarIndex === index) {
+                    this.editarTarea(index, this.tareas[index]);
+                  } else {
+                    editarIndex = index;
+                  }
+                },
+              }, editarIndex === index ? "Guardar" : "Editar"),
+              m("button", {
+                onclick: () => {
+                  this.tareas.splice(index, 1);
+                  this.actualizarTareas();
+                  m.redraw();
+                },
+              }, "Borrar")
+            )
           ),
 
-          m("div", {style:{marginTop: "30px"}},
+          m("div", { style: { marginTop: "30px" } },
             m("h2", { style: { textAlign: "center" } }, "Completadas"),
-            m("p",{style:{textAlign: "center", marginTop: "20px"}}, this.completadas.length === 0 ? "No has completado aún ninguna tarea" : ""),
+            m("p", { style: { textAlign: "center", marginTop: "20px" } }, this.completadas.length === 0 ? "No has completado aún ninguna tarea" : ""),
             this.completadas.map((t, index) =>
               m("div", {
                 style: {
@@ -621,9 +732,14 @@ function TareasMarcos() {
               },
                 m("input", {
                   type: "checkbox",
-                  checked: "true",
-                  style: { width: "18px", cursor: "pointer",  },
-                  onclick: () => {this.tareas.push(t); this.completadas.splice(index,1); this.actualizarTareas(); m.redraw();},
+                  checked: true,
+                  style: { width: "18px", cursor: "pointer" },
+                  onclick: () => {
+                    this.tareas.push(t);
+                    this.completadas.splice(index, 1);
+                    this.actualizarTareas();
+                    m.redraw();
+                  },
                 }),
                 m("label", {
                   style: {
@@ -639,26 +755,23 @@ function TareasMarcos() {
                     textDecoration: "line-through",
                   },
                 },
-                t,  
-              ),
-              m("button", {style: {},
-                onclick: () => {},
-              },
-                "Editar"), 
-              m("button", {style: {},
-                onclick: () => { this.completadas.splice(index,1); this.actualizarTareas(); m.redraw();},
-              },
-                "Borrar"), 
-        ),
+                  t
+                ),
+                m("button", {
+                  onclick: () => {
+                    this.completadas.splice(index, 1);
+                    this.actualizarTareas();
+                    m.redraw();
+                  },
+                }, "Borrar")
+              )
+            ),
           ),
-          
-        ),
-      ),
-    )
+        )
+      );
     }
   };
 }
-
 
 function TarjetasMarcos(){
   return {
@@ -685,7 +798,7 @@ function TarjetasMarcos(){
         this.select.model.tarjetas.map((tarjeta, indice) =>
           m("div", {
             style: {
-              border: "1px solid black", margin: "0", height: "250px", width: "250px", overflow: "hidden", borderRadius: "6px", marginTop: "20px", display: "flex", textAlign: "center", flexDirection: "column",
+              border: "1px solid black", margin: "0", height: "250px", width: "250px", overflow: "hidden", borderRadius: "6px", marginTop: "20px", display: "flex", textAlign: "center", flexDirection: "column", flex: "1 0 200px"
             },
           },
             m("h1", { style: { overflow: "hidden", margin: "0", paddingTop: "10px", paddingBottom: "10px", } }, tarjeta.title),
@@ -714,6 +827,22 @@ function FooterMarcos() {
 
       );
 
+    },
+  };
+}
+
+function PaginaMarcos() {
+  const fontSize = "50px"; // Cambia aquí el tamaño de fuente para todo
+
+  return {
+    view: function () {
+      return m("div", {}, 
+        m(CarruselMarcos),
+        m(DesplegableMarcos),
+        m(PersistenciaMarcos),
+        m(TareasMarcos),
+        m(TarjetasMarcos),
+      );
     },
   };
 }
